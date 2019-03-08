@@ -2,8 +2,6 @@ package top.txwgoogol.delayedfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,7 +23,7 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class HomeFragment extends BaseLazyFragment {
+public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -32,6 +31,10 @@ public class HomeFragment extends BaseLazyFragment {
     TextView title;
     @BindView(R.id.home)
     TextView home;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.constraint_content)
+    ConstraintLayout constraintContent;
     Unbinder unbinder;
 
     private View viewRoot;
@@ -75,36 +78,41 @@ public class HomeFragment extends BaseLazyFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, viewRoot);
-
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
         return viewRoot;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        toolbar.getMenu().clear();
-//        inflater.inflate(R.menu.home, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.scan:
-//                Toast.makeText(getActivity(), "点击了扫描菜单", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.vip:
-//                Toast.makeText(getActivity(), "点击了会员菜单", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.msg:
-//                Toast.makeText(getActivity(), "点击了消息菜单", Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefresh.setOnRefreshListener(this);
+
+        swipeRefresh.setRefreshing(true);
+        toolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
+                    constraintContent.setVisibility(View.VISIBLE);
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onRefresh() {
+        toolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
+                    home.setText("刷新后的数据HOME");
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        }, 2000);
+
+    }
 
     @Override
     public void onDestroyView() {

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         basePageAdapter = new BasePageAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(basePageAdapter);
+        viewPager.setOffscreenPageLimit(5);  //这个是延时加载的关键
         navigationView.setupWithViewPager(viewPager);
 
         navigationView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);

@@ -2,8 +2,6 @@ package top.txwgoogol.delayedfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +23,7 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class MyFragment extends BaseLazyFragment {
+public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title)
     TextView title;
@@ -35,6 +33,8 @@ public class MyFragment extends BaseLazyFragment {
     TextView my;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.constraint_content)
+    ConstraintLayout constraintContent;
     private View viewRoot;
     Unbinder unbinder;
 
@@ -45,9 +45,6 @@ public class MyFragment extends BaseLazyFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         title.setText("我的");
         toolbar.inflateMenu(R.menu.my);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -71,22 +68,38 @@ public class MyFragment extends BaseLazyFragment {
         return viewRoot;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        toolbar.getMenu().clear();
-//        inflater.inflate(R.menu.my, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.my:
-//                Toast.makeText(getActivity(), "点击了我的菜单", Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public void onFirstUserVisible() {
+        super.onFirstUserVisible();
+
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefresh.setOnRefreshListener(this);
+
+        swipeRefresh.setRefreshing(true);
+        toolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
+                    constraintContent.setVisibility(View.VISIBLE);
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        }, 2000);
+    }
+
+
+    @Override
+    public void onRefresh() {
+        toolbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
+                    my.setText("刷新后的数据MY");
+                    swipeRefresh.setRefreshing(false);
+                }
+            }
+        }, 2000);
+    }
 
     @Override
     public void onDestroyView() {
