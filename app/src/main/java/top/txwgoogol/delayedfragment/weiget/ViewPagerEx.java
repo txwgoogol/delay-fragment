@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.weiget;
 
 import android.content.Context;
 import android.util.AttributeSet;

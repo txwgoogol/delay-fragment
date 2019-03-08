@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.main.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import top.txwgoogol.delayedfragment.R;
+import top.txwgoogol.delayedfragment.base.BaseLazyFragment;
 
 /**
  * 首页
@@ -23,36 +25,49 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.title)
-    TextView title;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.my)
-    TextView my;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.home)
+    TextView home;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.constraint_content)
     ConstraintLayout constraintContent;
-    private View viewRoot;
     Unbinder unbinder;
 
-    public static MyFragment instance() {
-        return new MyFragment();
+    private View viewRoot;
+
+    public static HomeFragment instance() {
+        return new HomeFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        title.setText("我的");
-        toolbar.inflateMenu(R.menu.my);
+        title.setText("首页");
+        toolbar.inflateMenu(R.menu.home);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.my:
-                        Toast.makeText(getActivity(), "点击了我的菜单", Toast.LENGTH_SHORT).show();
+                    case R.id.scan:
+                        Toast.makeText(getActivity(), "点击了SCAN菜单", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.vip:
+                        Toast.makeText(getActivity(), "点击了VIP菜单", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.msg:
+                        Toast.makeText(getActivity(), "点击了MSG菜单", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
@@ -63,7 +78,7 @@ public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.O
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_my, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, viewRoot);
         return viewRoot;
     }
@@ -82,11 +97,11 @@ public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.O
                 if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
                     constraintContent.setVisibility(View.VISIBLE);
                     swipeRefresh.setRefreshing(false);
+                    isRefreshing = false;
                 }
             }
         }, 2000);
     }
-
 
     @Override
     public void onRefresh() {
@@ -94,8 +109,9 @@ public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.O
             @Override
             public void run() {
                 if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-                    my.setText("刷新后的数据MY");
+                    home.setText("刷新后的数据HOME");
                     swipeRefresh.setRefreshing(false);
+                    isRefreshing = false;
                 }
             }
         }, 2000);

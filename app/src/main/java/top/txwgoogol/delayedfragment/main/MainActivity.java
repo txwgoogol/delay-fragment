@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.main;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,6 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import top.txwgoogol.delayedfragment.R;
+import top.txwgoogol.delayedfragment.base.BasePageAdapter;
+import top.txwgoogol.delayedfragment.main.chat.ChatFragment;
+import top.txwgoogol.delayedfragment.main.data.DataFragment;
+import top.txwgoogol.delayedfragment.main.home.HomeFragment;
+import top.txwgoogol.delayedfragment.main.my.MyFragment;
+import top.txwgoogol.delayedfragment.main.school.SchoolFragment;
+import top.txwgoogol.delayedfragment.weiget.ViewPagerEx;
 
 /**
  * 主页
@@ -81,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 如果是正在刷新的 则不可切换页面 否则可以随意切换 提升用户交互体验
+     * 暂时没有实现
+     *
+     * @param isRefreshing
+     */
+    @Deprecated
+    public static void onChangeListener(boolean isRefreshing) {
+        if (isRefreshing) {
+            //navigationView.setEnabled(false);
+        } else {
+            //navigationView.setEnabled(true);
+        }
     }
 
 }

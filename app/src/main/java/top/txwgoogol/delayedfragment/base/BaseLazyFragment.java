@@ -1,7 +1,6 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.base;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 
 /**
  * 懒加载
@@ -9,7 +8,7 @@ import androidx.fragment.app.Fragment;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class BaseLazyFragment extends Fragment {
+public class BaseLazyFragment extends BaseFragment {
 
     private boolean isPrepared;
 

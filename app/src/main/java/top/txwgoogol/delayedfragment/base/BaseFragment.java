@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.base;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
  * @// TODO: 3/7/19
  */
 public class BaseFragment extends Fragment {
+
+    protected boolean isRefreshing = false; //是否正在执行刷新操作
 
     @Nullable
     @Override

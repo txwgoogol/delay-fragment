@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.main.school;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import top.txwgoogol.delayedfragment.R;
+import top.txwgoogol.delayedfragment.base.BaseLazyFragment;
 
 /**
  * 首页
@@ -23,14 +25,14 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.home)
-    TextView home;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.school)
+    TextView school;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.constraint_content)
@@ -39,8 +41,8 @@ public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout
 
     private View viewRoot;
 
-    public static HomeFragment instance() {
-        return new HomeFragment();
+    public static SchoolFragment instance() {
+        return new SchoolFragment();
     }
 
     @Override
@@ -52,20 +54,14 @@ public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        title.setText("首页");
-        toolbar.inflateMenu(R.menu.home);
+        title.setText("商学院");
+        toolbar.inflateMenu(R.menu.school);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.scan:
-                        Toast.makeText(getActivity(), "点击了SCAN菜单", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.vip:
-                        Toast.makeText(getActivity(), "点击了VIP菜单", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.msg:
-                        Toast.makeText(getActivity(), "点击了MSG菜单", Toast.LENGTH_SHORT).show();
+                    case R.id.school:
+                        Toast.makeText(getActivity(), "点击了School菜单", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
@@ -76,7 +72,7 @@ public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_home, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_school, container, false);
         unbinder = ButterKnife.bind(this, viewRoot);
         return viewRoot;
     }
@@ -100,18 +96,18 @@ public class HomeFragment extends BaseLazyFragment implements SwipeRefreshLayout
         }, 2000);
     }
 
+
     @Override
     public void onRefresh() {
         toolbar.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-                    home.setText("刷新后的数据HOME");
+                    school.setText("刷新后的数据SCHOOL");
                     swipeRefresh.setRefreshing(false);
                 }
             }
         }, 2000);
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.main.my;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import top.txwgoogol.delayedfragment.R;
+import top.txwgoogol.delayedfragment.base.BaseLazyFragment;
 
 /**
  * 首页
@@ -23,43 +25,36 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class ChatFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MyFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.chat)
-    TextView chat;
+    @BindView(R.id.my)
+    TextView my;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.constraint_content)
     ConstraintLayout constraintContent;
+    private View viewRoot;
     Unbinder unbinder;
 
-    private View viewRoot;
-
-    public static ChatFragment instance() {
-        return new ChatFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    public static MyFragment instance() {
+        return new MyFragment();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        title.setText("沟通");
-        toolbar.inflateMenu(R.menu.chat);
+        title.setText("我的");
+        toolbar.inflateMenu(R.menu.my);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.chat:
-                        Toast.makeText(getActivity(), "点击了Chat菜单", Toast.LENGTH_SHORT).show();
+                    case R.id.my:
+                        Toast.makeText(getActivity(), "点击了我的菜单", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
@@ -70,7 +65,7 @@ public class ChatFragment extends BaseLazyFragment implements SwipeRefreshLayout
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_chat, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_my, container, false);
         unbinder = ButterKnife.bind(this, viewRoot);
         return viewRoot;
     }
@@ -94,13 +89,14 @@ public class ChatFragment extends BaseLazyFragment implements SwipeRefreshLayout
         }, 2000);
     }
 
+
     @Override
     public void onRefresh() {
         toolbar.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-                    chat.setText("刷新后的数据CHAT");
+                    my.setText("刷新后的数据MY");
                     swipeRefresh.setRefreshing(false);
                 }
             }

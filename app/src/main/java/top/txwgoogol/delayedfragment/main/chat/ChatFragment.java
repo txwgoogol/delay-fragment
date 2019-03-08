@@ -1,4 +1,4 @@
-package top.txwgoogol.delayedfragment;
+package top.txwgoogol.delayedfragment.main.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import top.txwgoogol.delayedfragment.R;
+import top.txwgoogol.delayedfragment.base.BaseLazyFragment;
 
 /**
  * 首页
@@ -23,14 +25,14 @@ import butterknife.Unbinder;
  * @author txw
  * @// TODO: 3/7/19
  */
-public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ChatFragment extends BaseLazyFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.school)
-    TextView school;
+    @BindView(R.id.chat)
+    TextView chat;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.constraint_content)
@@ -39,8 +41,8 @@ public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayo
 
     private View viewRoot;
 
-    public static SchoolFragment instance() {
-        return new SchoolFragment();
+    public static ChatFragment instance() {
+        return new ChatFragment();
     }
 
     @Override
@@ -52,14 +54,14 @@ public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayo
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        title.setText("商学院");
-        toolbar.inflateMenu(R.menu.school);
+        title.setText("沟通");
+        toolbar.inflateMenu(R.menu.chat);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.school:
-                        Toast.makeText(getActivity(), "点击了School菜单", Toast.LENGTH_SHORT).show();
+                    case R.id.chat:
+                        Toast.makeText(getActivity(), "点击了Chat菜单", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
@@ -70,7 +72,7 @@ public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayo
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewRoot = inflater.inflate(R.layout.fragment_school, container, false);
+        viewRoot = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, viewRoot);
         return viewRoot;
     }
@@ -94,14 +96,13 @@ public class SchoolFragment extends BaseLazyFragment implements SwipeRefreshLayo
         }, 2000);
     }
 
-
     @Override
     public void onRefresh() {
         toolbar.postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (swipeRefresh != null && swipeRefresh.isRefreshing()) {
-                    school.setText("刷新后的数据SCHOOL");
+                    chat.setText("刷新后的数据CHAT");
                     swipeRefresh.setRefreshing(false);
                 }
             }

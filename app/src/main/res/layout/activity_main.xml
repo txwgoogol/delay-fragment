@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/navigation_view"
@@ -22,7 +22,7 @@
         android:layout_above="@+id/navigation_view"
         android:background="@android:color/darker_gray" />
 
-    <top.txwgoogol.delayedfragment.ViewPagerEx
+    <top.txwgoogol.delayedfragment.weiget.ViewPagerEx
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
