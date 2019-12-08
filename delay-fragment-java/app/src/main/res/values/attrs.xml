@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+	<!-- 自定义LinearLayout 控制子类点击事件的拦截 -->
+	<declare-styleable name="LinearLayoutEx">
+		<attr name="intercept_touch_event" format="boolean" />
+	</declare-styleable>
+
+</resources>
